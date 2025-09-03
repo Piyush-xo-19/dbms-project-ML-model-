@@ -1,4 +1,12 @@
+//Dependancies for the application
+joblib 
+PyQt6
+
+"""
+Dependancies for training the model.
+
 numpy
 pandas
 matplotlib
 sklearn
+"""
