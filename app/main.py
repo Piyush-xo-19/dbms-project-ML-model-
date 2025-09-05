@@ -1,52 +1,39 @@
 import sys
-import joblib
-import numpy as np
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton
+from PyQt6.QtWidgets import QWidget, QApplication, QPushButton
 
-# Load pre-trained SVM model
-model = joblib.load("model/svm_model.pkl")
+app = QApplication(sys.argv)
+screen_res = app.primaryScreen().size()
+width, height = screen_res.width(), screen_res.height()
 
-class SVMApp(QWidget):
+class MainWindow(QWidget):
     def __init__(self):
-        super().__init__()
-        self.setWindowTitle("SVM Prediction App")
-        self.setGeometry(200, 200, 300, 200)
+
+        # Initialize the window
+        super().__init__()                                      
+        self.setWindowTitle("SVM Classifier for Breast Cancer Prediction")
+        self.setGeometry(0, 0, width, height)
+
+        print("Initialized MainWindow")           
+        print(f"Window size set to: {width}x{height}")                                  
+
+        # UI Components
+        button = QPushButton("Click Me", self)
+        button.resize(120, 50)
+        button.move((width - button.width()) // 2,
+                    (height - button.height()) // 2)
         
-        layout = QVBoxLayout()
+        print("Button added to the window")                                                                                       
+        
+def main ():
 
-        # Input fields
-        self.label1 = QLabel("Feature 1:")
-        self.input1 = QLineEdit()
-        layout.addWidget(self.label1)
-        layout.addWidget(self.input1)
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.showMaximized()  # Show the window maximized after creation
 
-        self.label2 = QLabel("Feature 2:")
-        self.input2 = QLineEdit()
-        layout.addWidget(self.label2)
-        layout.addWidget(self.input2)
-
-        # Predict button
-        self.button = QPushButton("Predict")
-        self.button.clicked.connect(self.predict)
-        layout.addWidget(self.button)
-
-        # Output label
-        self.result_label = QLabel("Result will appear here")
-        layout.addWidget(self.result_label)
-
-        self.setLayout(layout)
-
-    def predict(self):
-        try:
-            f1 = float(self.input1.text())
-            f2 = float(self.input2.text())
-            prediction = model.predict(np.array([[f1, f2]]))[0]
-            self.result_label.setText(f"Prediction: {prediction}")
-        except ValueError:
-            self.result_label.setText("Please enter valid numbers.")
+    print("Application started and window shown maximized")
+    
+    sys.exit(app.exec())
+        
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = SVMApp()
-    window.show()
-    sys.exit(app.exec())
+    main()
