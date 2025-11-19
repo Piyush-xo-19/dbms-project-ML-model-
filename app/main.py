@@ -23,7 +23,7 @@ class MainWindow(QWidget):
         self.init_ui()
         
     def init_ui(self):
-        self.setWindowTitle("SVM Classifier for Breast Cancer Prediction")
+        self.setWindowTitle("SVM Classifier for Breast Cancer Prediction🥀")
         
         # Set larger window size to accommodate non-scrollable text
         self.setGeometry(100, 100, 1500, 1000)
@@ -77,7 +77,7 @@ class MainWindow(QWidget):
         layout.setContentsMargins(20, 10, 20, 10)
         layout.setSpacing(3)
         
-        title = QLabel("SVM Classifier for Breast Cancer Prediction")
+        title = QLabel("SVM Classifier for Cancer Prediction")
         title.setFont(QFont("Segoe UI", 16, QFont.Weight.Normal))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("color: #ffffff; background: transparent;")
@@ -449,9 +449,9 @@ class MainWindow(QWidget):
         seed_layout.addWidget(self.generate_btn)
         
         # Simple action buttons
-        self.sample_btn = AnimatedButton("Sample")
-        self.sample_btn.setFont(QFont("Segoe UI", 10, QFont.Weight.Normal))
-        self.sample_btn.setStyleSheet("""
+        self.sample_malignant_btn = AnimatedButton("Benign")
+        self.sample_malignant_btn.setFont(QFont("Segoe UI", 10, QFont.Weight.Normal))
+        self.sample_malignant_btn.setStyleSheet("""
             QPushButton {
                 background: #333333;
                 color: #ffffff;
@@ -464,7 +464,24 @@ class MainWindow(QWidget):
                 background: #444444;
             }
         """)
-        self.sample_btn.clicked.connect(self.load_sample_data)
+        self.sample_malignant_btn.clicked.connect(self.load_sample_malignant)
+        
+        self.sample_benign_btn = AnimatedButton("Malignant")
+        self.sample_benign_btn.setFont(QFont("Segoe UI", 10, QFont.Weight.Normal))
+        self.sample_benign_btn.setStyleSheet("""
+            QPushButton {
+                background: #333333;
+                color: #ffffff;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+                min-height: 32px;
+            }
+            QPushButton:hover {
+                background: #444444;
+            }
+        """)
+        self.sample_benign_btn.clicked.connect(self.load_sample_benign)
         
         self.clear_btn = AnimatedButton("Clear")
         self.clear_btn.setFont(QFont("Segoe UI", 10, QFont.Weight.Normal))
@@ -516,7 +533,8 @@ class MainWindow(QWidget):
         button_layout.setSpacing(12)
         button_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
         
-        button_layout.addWidget(self.sample_btn)
+        button_layout.addWidget(self.sample_malignant_btn)
+        button_layout.addWidget(self.sample_benign_btn)
         button_layout.addWidget(self.clear_btn)
         button_layout.addWidget(self.predict_btn)
         
@@ -803,19 +821,38 @@ class MainWindow(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Generation Error", f"Error generating data: {str(e)}")
 
-    def load_sample_data(self):
-        # Sample data for testing (known malignant case)
+    def load_sample_malignant(self):
+        # Sample data for testing (known malignant case with high confidence)
         sample_values = {
-            "mean_radius": "17.99", "mean_texture": "10.38", "mean_perimeter": "122.8",
-            "mean_area": "1001", "mean_smoothness": "0.1184", "mean_compactness": "0.2776",
-            "mean_concavity": "0.3001", "mean_concave_points": "0.1471", "mean_symmetry": "0.2419",
-            "mean_fractal_dimension": "0.07871", "se_radius": "1.095", "se_texture": "0.9053",
-            "se_perimeter": "8.589", "se_area": "153.4", "se_smoothness": "0.006399",
-            "se_compactness": "0.04904", "se_concavity": "0.05373", "se_concave_points": "0.01587",
-            "se_symmetry": "0.03003", "se_fractal_dimension": "0.006193", "worst_radius": "25.38",
-            "worst_texture": "17.33", "worst_perimeter": "184.6", "worst_area": "2019",
-            "worst_smoothness": "0.1622", "worst_compactness": "0.6656", "worst_concavity": "0.7119",
-            "worst_concave_points": "0.2654", "worst_symmetry": "0.4601", "worst_fractal_dimension": "0.1189"
+            "mean_radius": "20.57", "mean_texture": "17.77", "mean_perimeter": "132.9",
+            "mean_area": "1326", "mean_smoothness": "0.08474", "mean_compactness": "0.07864",
+            "mean_concavity": "0.0869", "mean_concave_points": "0.07017", "mean_symmetry": "0.1812",
+            "mean_fractal_dimension": "0.05667", "se_radius": "0.5435", "se_texture": "0.7339",
+            "se_perimeter": "3.398", "se_area": "74.08", "se_smoothness": "0.005225",
+            "se_compactness": "0.01308", "se_concavity": "0.0186", "se_concave_points": "0.0134",
+            "se_symmetry": "0.01389", "se_fractal_dimension": "0.003532", "worst_radius": "24.99",
+            "worst_texture": "23.41", "worst_perimeter": "158.8", "worst_area": "1956",
+            "worst_smoothness": "0.1238", "worst_compactness": "0.1866", "worst_concavity": "0.2416",
+            "worst_concave_points": "0.186", "worst_symmetry": "0.275", "worst_fractal_dimension": "0.08902"
+        }
+        
+        for field_name, value in sample_values.items():
+            if field_name in self.feature_inputs:
+                self.feature_inputs[field_name].setText(value)
+    
+    def load_sample_benign(self):
+        # Sample data for testing (known benign case)
+        sample_values = {
+            "mean_radius": "13.54", "mean_texture": "14.36", "mean_perimeter": "87.46",
+            "mean_area": "566.3", "mean_smoothness": "0.09779", "mean_compactness": "0.08129",
+            "mean_concavity": "0.06664", "mean_concave_points": "0.04781", "mean_symmetry": "0.1885",
+            "mean_fractal_dimension": "0.05766", "se_radius": "0.2699", "se_texture": "0.7886",
+            "se_perimeter": "2.058", "se_area": "23.56", "se_smoothness": "0.008462",
+            "se_compactness": "0.0146", "se_concavity": "0.02387", "se_concave_points": "0.01315",
+            "se_symmetry": "0.0198", "se_fractal_dimension": "0.0023", "worst_radius": "15.11",
+            "worst_texture": "19.26", "worst_perimeter": "99.7", "worst_area": "711.2",
+            "worst_smoothness": "0.144", "worst_compactness": "0.1773", "worst_concavity": "0.239",
+            "worst_concave_points": "0.1288", "worst_symmetry": "0.2977", "worst_fractal_dimension": "0.07259"
         }
         
         for field_name, value in sample_values.items():

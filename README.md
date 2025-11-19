@@ -53,7 +53,8 @@ This project integrates a **Support Vector Machine (SVM)** model with a modern *
 ### Input Methods
 - **Manual Entry**: Enter cellular measurement values in organized input sections
 - **Generate Data**: Use seed-based random data generation for testing
-- **Sample Data**: Load pre-configured test cases
+- **Malignant Sample**: Click the "Malignant" button to automatically load a known cancer case
+- **Benign Sample**: Click the "Benign" button to automatically load a known non-cancer case
 
 ### Measurement Categories
 - **Mean Values**: Radius, texture, perimeter, area, smoothness, compactness, concavity, concave points, symmetry, fractal dimension
@@ -64,6 +65,22 @@ This project integrates a **Support Vector Machine (SVM)** model with a modern *
 - Click **Analyze** to get AI prediction
 - Results show **Benign** (green) or **Malignant** (red) with confidence percentage
 - Detailed recommendations provided based on prediction
+
+---
+
+## 🔹 Sample Test Cases
+
+### Malignant Case
+Click the **"Malignant"** button to automatically load a known cancer case:
+- Mean Radius: `20.57` | Area: `1326` | Concavity: `0.0869`
+- Worst Radius: `24.99` | Worst Area: `1956` | Worst Concavity: `0.2416`
+- **Expected Result**: Malignant with high confidence
+
+### Benign Case
+Click the **"Benign"** button to automatically load a known non-cancer case:
+- Mean Radius: `13.54` | Area: `566.3` | Concavity: `0.06664`
+- Worst Radius: `15.11` | Worst Area: `711.2` | Worst Concavity: `0.239`
+- **Expected Result**: Benign with high confidence
 
 ---
 
