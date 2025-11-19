@@ -23,7 +23,7 @@ class MainWindow(QWidget):
         self.init_ui()
         
     def init_ui(self):
-        self.setWindowTitle("SVM Classifier for Breast Cancer Prediction🥀")
+        self.setWindowTitle("SVM Classifier for Breast Cancer Prediction")
         
         # Set larger window size to accommodate non-scrollable text
         self.setGeometry(100, 100, 1500, 1000)
